@@ -13,10 +13,12 @@ site/downloads/*.dmg
 .packwork/
 
 # ---- 内部资料,不进公开仓库 ----
-docs/
-assets/
-CLAUDE.md
-.claude/
+# 注意:必须写成 /docs/ /assets/ 这种带前导斜杠的形式,只匹配仓库根目录。
+# 写成 assets/ 会匹配**任意层级**下叫 assets 的目录,把 site/assets/ 也一起排掉。
+/docs/
+/assets/
+/CLAUDE.md
+/.claude/
 
 # ---- 系统 ----
 .DS_Store

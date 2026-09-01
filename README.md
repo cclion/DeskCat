@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="site/assets/pack/waiting.webp" width="140" alt="DeskCat">
-
 # DeskCat
 
 **你的 AI 在跑的时候，它替你盯着。**
@@ -10,6 +8,8 @@
 它停下来等你批权限时，猫会招手叫你——这是它最有用的一刻。
 
 [下载](#下载) · [它会演什么](#它会演什么) · [这只猫哪来的](#这只猫哪来的) · [隐私](#隐私)
+
+<img src="site/assets/img/readme-hero.png" width="720" alt="Claude Code 停在权限确认，小猫在桌面角落招手叫你">
 
 </div>
 
