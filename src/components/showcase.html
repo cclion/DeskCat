@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>DeskCat 组件库 showcase</title>
+<link rel="stylesheet" href="components.css">
+<style>
+  /* 仅本页排版,不含任何组件样式 */
+  body { padding: 34px; }
+  h1 { font-size: 20px; margin: 0; }
+  .meta { color: #8d8371; font-size: 12px; margin: 5px 0 28px; }
+  section { margin-bottom: 34px; }
+  section > h2 { font-size: 13px; margin: 0 0 3px; }
+  section > .sub { font-size: 11px; color: #8d8371; margin-bottom: 13px; }
+  .specimens { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-end; }
+  .sp { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .sp > .cap { font-size: 10.5px; color: #8d8371; }
+  .panel { width: 340px; background: var(--paper); border-radius: 14px; padding: 16px 20px;
+    box-shadow: 0 10px 28px rgba(70,58,40,.13); }
+  .scene { width: 300px; height: 210px; border-radius: 12px; position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #C9CBBE, #A9B2A4 60%, #96A096); }
+  .scene .pet { position: absolute; right: 22px; bottom: 10px; width: 108px; }
+</style>
+</head>
+<body>
+
+<h1>DeskCat 组件库 showcase</h1>
+<div class="meta">P0 产出 · 视觉基准 docs/设计板.html · 所有界面只能用这些组件拼</div>
+
+<!-- SettingsWindow + NavItem + CurrentPet -->
+<section>
+  <h2>SettingsWindow · NavItem · CurrentPet</h2>
+  <div class="sub">侧栏框架 = traffic lights + 导航 + 当前形象底栏 + 内容区;NavItem 有 default / selected 两态</div>
+  <div class="win">
+    <div class="side">
+      <div class="titlebar" data-tauri-drag-region></div>
+      <div class="nav" data-key="page">
+        <div class="ni sel" data-page="pet"><svg class="ic" viewBox="0 0 16 16"><path d="M3 7c0-3 2-5 5-5s5 2 5 5v4a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 5 2 2.5 5.5 3M12.5 5 14 2.5 10.5 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>形象</div>
+        <div class="ni" data-page="general"><svg class="ic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2M3.6 3.6l1.4 1.4M11 11l1.4 1.4M12.4 3.6 11 5M5 11l-1.4 1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>通用设置</div>
+        <div class="ni" data-page="company"><svg class="ic" viewBox="0 0 16 16"><path d="M2 13c1-4 3-6 6-6s5 2 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="4" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>陪伴感知</div>
+        <div class="ni" data-page="claude"><svg class="ic" viewBox="0 0 16 16"><path d="m6 4-3 4 3 4M10 4l3 4-3 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Claude Code</div>
+      </div>
+      <div class="cur">
+        <img src="../packs/calico/idle.webp" alt="">
+        <div><div class="nm">三花猫</div><div class="st"><b>●</b> 陪伴中</div></div>
+      </div>
+    </div>
+    <div class="body">
+      <div class="titlebar" data-tauri-drag-region></div>
+      <h3>形象</h3>
+      <div class="desc">这只猫来自一张图 —— 以后你也可以用自己的图生成一只</div>
+      <div class="pcards">
+        <div class="pcard sel">
+          <img src="../packs/calico/idle.webp" alt="">
+          <b>三花猫</b>
+          <span class="use">当前使用 ✓</span>
+        </div>
+        <div class="pcard">
+          <img src="../../assets/形象候选/capy-a.png" alt="">
+          <b>水豚</b>
+          <span class="apply">应用</span>
+        </div>
+        <div class="pcard ghost">
+          <div class="plus">＋</div>
+          <b>自定义形象</b>
+          <span class="soon">敬请期待</span>
+        </div>
+      </div>
+      <div class="row" style="margin-top:14px; border-top:1px solid var(--hairline);">
+        <span class="lbl">大小<span class="hint">拖动时桌面上的它即时缩放</span></span>
+        <div class="slider" data-key="size" data-min="60" data-max="200"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PetCard 三态 -->
+<section>
+  <h2>PetCard</h2>
+  <div class="sub">normal / selected(炭墨描边 + 白 halo + 投影) / ghost(虚线占位);徽章三种</div>
+  <div class="specimens">
+    <div class="sp">
+      <div class="pcard sel"><img src="../packs/calico/idle.webp" alt=""><b>三花猫</b><span class="use">当前使用 ✓</span></div>
+      <span class="cap">selected + 当前使用徽章</span>
+    </div>
+    <div class="sp">
+      <div class="pcard"><img src="../../assets/形象候选/capy-a.png" alt=""><b>水豚</b><span class="apply">应用</span></div>
+      <span class="cap">normal + 应用徽章</span>
+    </div>
+    <div class="sp">
+      <div class="pcard ghost"><div class="plus">＋</div><b>自定义形象</b><span class="soon">敬请期待</span></div>
+      <span class="cap">ghost + 敬请期待徽章</span>
+    </div>
+  </div>
+</section>
+
+<!-- SettingRow / Toggle / Slider / Stepper / StatusDot / PillButton -->
+<section>
+  <h2>SettingRow · Toggle · Slider · Stepper · StatusDot · PillButton</h2>
+  <div class="sub">行内控件全家桶;行间 hairline 分隔</div>
+  <div class="specimens">
+    <div class="sp">
+      <div class="panel">
+        <h3 style="font-size:14px;margin:0 0 6px;">通用设置</h3>
+        <div class="row">
+          <span class="lbl">开机自启<span class="hint">默认关</span></span>
+          <div class="tg" data-key="autostart"></div>
+        </div>
+        <div class="row">
+          <span class="lbl">全屏时隐藏<span class="hint">演示/录屏不露脸</span></span>
+          <div class="tg on" data-key="hide_fullscreen"></div>
+        </div>
+        <div class="row">
+          <span class="lbl">等你批权限时轻提示音</span>
+          <div class="tg on" data-key="chime"></div>
+        </div>
+        <div class="row">
+          <span class="lbl">气泡显示备注<span class="hint">显示当前项目目录名</span></span>
+          <div class="tg" data-key="bubble_remark"></div>
+        </div>
+      </div>
+      <span class="cap">Toggle:on(caramel)/ off(#DDD2BC)</span>
+    </div>
+    <div class="sp">
+      <div class="panel">
+        <h3 style="font-size:14px;margin:0 0 6px;">Claude Code</h3>
+        <div class="row">
+          <span class="lbl"><span class="dot on"></span>已连接<span class="hint">hooks 已写入 ~/.claude/settings.json</span></span>
+          <span class="mono">2 个会话活跃</span>
+        </div>
+        <div class="row">
+          <span class="lbl"><span class="dot off"></span>未连接<span class="hint">写入 hooks 后才能感知</span></span>
+          <span class="btn dark">一键连接</span>
+        </div>
+        <div class="row">
+          <span class="lbl">判定闲置<span class="hint">超过这个时间没有新事件,视为任务结束</span></span>
+          <div class="step" data-key="idle_min" data-min="1" data-max="60" data-unit="分钟" data-value="10">
+            <span class="pm" data-dir="down">−</span><span class="val">10 分钟</span><span class="pm" data-dir="up">＋</span>
+          </div>
+        </div>
+        <div class="row">
+          <span class="lbl">判定离开<span class="hint">键鼠这么久没动就去打盹</span></span>
+          <div class="step" data-key="away_min" data-min="1" data-max="60" data-unit="分钟" data-value="3">
+            <span class="pm" data-dir="down">−</span><span class="val">3 分钟</span><span class="pm" data-dir="up">＋</span>
+          </div>
+        </div>
+      </div>
+      <span class="cap">StatusDot 三色 · PillButton(dark) · Stepper</span>
+    </div>
+  </div>
+</section>
+
+<!-- TrayMenu -->
+<section>
+  <h2>TrayMenu</h2>
+  <div class="sub">item:default / hover(caramel-soft)/ 带 ✓ / dim 状态行;分隔线;子菜单</div>
+  <div class="mrow">
+    <div class="menu">
+      <div class="mi">隐藏小猫</div>
+      <div class="mi">回到默认位置</div>
+      <hr>
+      <div class="mi">切换形象<span class="k">▸</span></div>
+      <div class="mi">提示音<span class="k">✓</span></div>
+      <div class="mi">开机自启</div>
+      <hr>
+      <div class="mi dim">Claude Code 已连接 · 2 个会话</div>
+      <hr>
+      <div class="mi">设置…</div>
+      <div class="mi">退出 DeskCat</div>
+    </div>
+    <div class="menu subm">
+      <div class="mi">三花猫<span class="k">✓</span></div>
+      <div class="mi">水豚</div>
+    </div>
+  </div>
+</section>
+
+<!-- SpeechBubble -->
+<section>
+  <h2>SpeechBubble</h2>
+  <div class="sub">transient(4–6s 收起)/ persistent(waiting、alert 专用,可带等宽备注行)/ hover;2.5px 炭墨描边 + 尾巴,站酷快乐体</div>
+  <div class="specimens">
+    <div class="sp">
+      <div class="bub" style="width:212px;">等你点个头<div class="rmk">Bash · rm -rf ./dist</div></div>
+      <span class="cap">persistent(带备注行)</span>
+    </div>
+    <div class="sp">
+      <div class="bub sm">别催,跑着呢</div>
+      <span class="cap">transient</span>
+    </div>
+    <div class="sp">
+      <div class="bub sm">双击我可以设置<span class="rmk">deskcat</span></div>
+      <span class="cap">hover</span>
+    </div>
+  </div>
+</section>
+
+<!-- PetSprite -->
+<section>
+  <h2>PetSprite</h2>
+  <div class="sub">动态 WebP 播放器 + drop-shadow;六语义态 + 子表现(打盹/摸头/睡醒)</div>
+  <div class="specimens">
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/idle.webp" alt=""></div><span class="cap">idle</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/busy.webp" alt=""></div><span class="cap">busy</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/waiting.webp" alt=""></div><span class="cap">waiting</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/celebrating.webp" alt=""></div><span class="cap">celebrating</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/alert.webp" alt=""></div><span class="cap">alert</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/greeting.webp" alt=""></div><span class="cap">greeting</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/extras/sleep.webp" alt=""></div><span class="cap">sleep</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/extras/pet.webp" alt=""></div><span class="cap">pet(摸头)</span></div>
+    <div class="sp"><div class="pet" style="width:104px;"><img src="../packs/calico/extras/wake.webp" alt=""></div><span class="cap">wake</span></div>
+  </div>
+</section>
+
+<!-- 桌面场景组合 -->
+<section>
+  <h2>桌面场景组合(PetSprite + SpeechBubble)</h2>
+  <div class="sub">S5 的核心组合:形象 + 常驻气泡</div>
+  <div class="scene">
+    <div class="bub sm" style="position:absolute; right:20px; bottom:118px;">等你点个头<span class="rmk">deskcat · Bash</span></div>
+    <div class="pet"><img src="../packs/calico/waiting.webp" alt=""></div>
+  </div>
+</section>
+
+<script type="module">
+  import { bindAll } from './components.js';
+  bindAll();
+  document.addEventListener('dc:change', (e) => console.log('dc:change', e.detail));
+</script>
+</body>
+</html>

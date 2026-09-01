@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- App Store 强制沙盒 -->
+  <key>com.apple.security.app-sandbox</key><true/>
+
+  <!-- 本地 HTTP 服务(接收 Claude Code 的 hook 回调) -->
+  <key>com.apple.security.network.server</key><true/>
+
+  <!-- 用户选中的文件可读写:一键连接时让用户授权 ~/.claude/settings.json -->
+  <key>com.apple.security.files.user-selected.read-write</key><true/>
+  <!-- 把那次授权持久化,重启后不用再问 -->
+  <key>com.apple.security.bookmarks.app-scope</key><true/>
+</dict>
+</plist>

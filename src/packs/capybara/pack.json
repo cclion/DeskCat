@@ -1,0 +1,45 @@
+{
+  "id": "capybara",
+  "name": "水豚",
+  "version": "1.0.0",
+  "states": {
+    "idle": {
+      "file": "idle.webp",
+      "loop": 0
+    },
+    "busy": {
+      "file": "busy.webp",
+      "loop": 0
+    },
+    "waiting": {
+      "file": "waiting.webp",
+      "loop": 0
+    },
+    "celebrating": {
+      "file": "celebrating.webp",
+      "loop": 1
+    },
+    "alert": {
+      "file": "alert.webp",
+      "loop": 0
+    },
+    "greeting": {
+      "file": "greeting.webp",
+      "loop": 1
+    }
+  },
+  "extras": {
+    "sleep": {
+      "file": "extras/sleep.webp",
+      "loop": 0
+    },
+    "pet": {
+      "file": "extras/pet.webp",
+      "loop": 1
+    },
+    "wake": {
+      "file": "extras/wake.webp",
+      "loop": 1
+    }
+  }
+}

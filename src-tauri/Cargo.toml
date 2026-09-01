@@ -1,0 +1,31 @@
+[package]
+name = "deskcat"
+version = "1.0.0"
+description = "DeskCat — AI 感知型桌面伙伴"
+edition = "2021"
+
+[lib]
+name = "deskcat_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["macos-private-api", "tray-icon", "image-png"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+block2 = "0.6"
+objc2 = "0.6"
+objc2-app-kit = { version = "0.3", features = ["NSEvent", "NSScreen", "NSResponder", "NSWindow", "NSApplication"] }
+objc2-foundation = { version = "0.3", features = ["NSGeometry"] }
+
+# 常驻桌宠:二进制越小、符号越少越好(65MB → 目标 <20MB)
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

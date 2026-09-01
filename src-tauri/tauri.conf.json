@@ -1,0 +1,73 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "DeskCat",
+  "version": "1.0.0",
+  "identifier": "app.deskcat.desktop",
+  "build": {
+    "frontendDist": "../src"
+  },
+  "app": {
+    "macOSPrivateApi": true,
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "pet",
+        "url": "pet/index.html",
+        "title": "DeskCat",
+        "width": 320,
+        "height": 320,
+        "resizable": false,
+        "transparent": true,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "shadow": false,
+        "acceptFirstMouse": true,
+        "visibleOnAllWorkspaces": true
+      },
+      {
+        "label": "settings",
+        "url": "settings/index.html",
+        "title": "DeskCat 设置",
+        "width": 720,
+        "height": 620,
+        "resizable": false,
+        "visible": false,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "dmg"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns"
+    ],
+    "macOS": {
+      "dmg": {
+        "background": "dmg-background.tiff",
+        "windowSize": {
+          "width": 660,
+          "height": 400
+        },
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        }
+      }
+    }
+  }
+}

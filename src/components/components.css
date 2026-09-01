@@ -1,0 +1,140 @@
+/* DeskCat 组件库 —— 唯一样式来源(UI契约.md 第一节的 12 个组件)。
+   界面只能用这些类拼,不得另造一次性样式。视觉基准:docs/设计板.html */
+
+@import url("tokens.css");
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font: 13px/1.6 -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+}
+
+/* ============ SettingsWindow:侧栏框架 ============ */
+.win { width: 660px; border-radius: 14px; background: var(--paper); overflow: hidden;
+  box-shadow: 0 18px 44px rgba(70,58,40,.18), 0 2px 8px rgba(70,58,40,.10); display: flex; }
+.win .side { width: 168px; background: var(--side); padding: 0 12px 12px;
+  display: flex; flex-direction: column; min-height: 430px; }
+.win .body { flex: 1; padding: 0 22px 20px; min-width: 0; }
+
+/* macOS 无边框窗口规范:
+   - 系统 traffic lights 浮在左上角,内容必须给它让位(52px)
+   - 无边框窗口没有系统标题栏,必须自己提供拖拽区,否则用户挪不动窗口 */
+.titlebar { height: 52px; flex: none; }
+.win .body .titlebar { height: 52px; }
+.win .body h3 { font-size: 16px; margin: 0; }
+.win .body .desc { font-size: 12px; color: var(--muted); margin: 2px 0 16px; }
+
+/* ============ NavItem ============ */
+.nav { display: flex; flex-direction: column; gap: 3px; }
+.nav .ni { padding: 8px 11px; border-radius: 9px; font-size: 13px;
+  display: flex; align-items: center; gap: 9px; color: #6d6250; cursor: default; }
+.nav .ni .ic { width: 16px; height: 16px; flex: none; opacity: .75; }
+.nav .ni.sel { background: var(--caramel-soft); color: var(--ink); font-weight: 600; }
+
+/* ============ CurrentPet:侧栏底部当前形象 ============ */
+.cur { margin-top: auto; display: flex; gap: 9px; align-items: center;
+  border-top: 1px solid var(--hairline); padding-top: 11px; }
+.cur img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; background: #fff;
+  border: 2px solid var(--ink); box-shadow: 0 0 0 2.5px #fff; }
+.cur .nm { font-size: 12px; font-weight: 600; }
+.cur .st { font-size: 11px; color: var(--muted); }
+.cur .st b { color: var(--pink); font-weight: 400; }
+
+/* ============ PetCard:形象卡片墙 ============ */
+.pcards { display: flex; gap: 14px; }
+.pcard { width: 136px; background: var(--card); border: 1.5px solid var(--hairline); border-radius: 14px;
+  padding: 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.pcard img { width: 96px; height: 96px; object-fit: cover; border-radius: 10px; }
+.pcard b { font-size: 12.5px; }
+.pcard.sel { border: 2px solid var(--ink);
+  box-shadow: 0 0 0 3px #fff, 0 6px 16px rgba(70,58,40,.10); }
+.pcard .use { font-size: 11px; color: #fff; background: var(--caramel); border-radius: 20px; padding: 2.5px 11px; }
+.pcard .apply { font-size: 11px; color: var(--paper); background: var(--ink); border-radius: 20px; padding: 2.5px 11px; }
+.pcard.ghost { border-style: dashed; background: transparent; }
+.pcard.ghost .plus { width: 96px; height: 96px; display: flex; align-items: center; justify-content: center;
+  font-size: 26px; color: var(--muted); }
+.pcard.ghost b { color: #8d8371; }
+.pcard .soon { font-size: 11px; color: var(--muted);
+  border: 1px solid var(--hairline); border-radius: 20px; padding: 2px 10px; }
+
+/* ============ StatePreview:选中形象后先看各状态,确认再应用 ============ */
+.preview { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px; }
+.preview .ph { display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px; }
+.preview .ph b { font-size: 12.5px; }
+.preview .ph span { font-size: 11px; color: var(--muted); }
+.preview .strip { display: flex; gap: 8px; flex-wrap: wrap; }
+.pv { width: 74px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.pv img { width: 74px; height: 74px; object-fit: contain; border-radius: 9px;
+  background: var(--card); border: 1.5px solid var(--hairline); }
+.pv i { font-size: 10px; font-style: normal; color: var(--muted); }
+
+/* ============ SettingRow ============ */
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; }
+.row + .row { border-top: 1px solid var(--hairline); }
+.row .lbl { font-size: 13px; }
+.row .hint { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+/* ============ Toggle ============ */
+.tg { width: 38px; height: 22px; border-radius: 12px; background: #DDD2BC; position: relative; flex: none; }
+.tg::after { content: ""; width: 18px; height: 18px; border-radius: 50%; background: #fff;
+  position: absolute; top: 2px; left: 2px; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: left .16s ease, right .16s ease; }
+.tg.on { background: var(--caramel); }
+.tg.on::after { left: auto; right: 2px; }
+
+/* ============ Slider ============ */
+.slider { flex: 1; max-width: 230px; height: 4px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--caramel) var(--fill,45%), #E4D9C2 var(--fill,45%)); position: relative; }
+.slider::after { content: ""; width: 16px; height: 16px; border-radius: 50%; background: #fff;
+  border: 2px solid var(--ink); position: absolute; top: -7px; left: calc(var(--fill,45%) - 2%); }
+
+/* ============ Stepper ============ */
+.step { display: flex; align-items: center; border: 1.5px solid var(--hairline); border-radius: 9px;
+  overflow: hidden; background: #fff; flex: none; }
+.step span { padding: 3px 12px; font: 12px var(--mono); white-space: nowrap; }
+.step .pm { background: var(--paper); color: #8d8371; font-size: 13px; cursor: default; }
+
+/* ============ StatusDot ============ */
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 6px;
+  background: var(--muted); }
+.dot.on { background: var(--green); }
+.dot.off { background: #C8BCA6; }
+.dot.pink { background: var(--pink); }
+
+/* ============ PillButton ============ */
+.btn { border-radius: 20px; padding: 5px 16px; font-size: 12px; display: inline-block; cursor: default; }
+.btn.dark { background: var(--ink); color: var(--paper); }
+.btn.dark:hover { background: #211f1a; }
+.mono { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+
+/* ============ TrayMenu ============ */
+.menu { width: 230px; background: rgba(252,249,242,.97); border-radius: 10px; padding: 5px;
+  box-shadow: 0 12px 30px rgba(70,58,40,.20), 0 0 0 .5px rgba(70,58,40,.10); font-size: 13px; }
+.menu .mi { padding: 5px 10px; border-radius: 6px;
+  display: flex; justify-content: space-between; align-items: center; }
+.menu .mi:hover { background: var(--caramel-soft); }
+.menu .mi .k { color: var(--caramel); font-size: 12px; }
+.menu hr { border: none; border-top: 1px solid var(--hairline); margin: 4px 8px; }
+.menu .mi.dim { color: #6d6250; font-size: 12px; }
+.subm { width: 118px; margin-left: 6px; }
+.mrow { display: flex; align-items: flex-start; gap: 6px; }
+
+/* ============ SpeechBubble:transient / persistent / hover ============ */
+.bub { position: relative; background: #FFFDF7; border: 2.5px solid var(--ink); border-radius: 14px;
+  padding: 10px 13px 9px; font-family: var(--kuaile); font-size: 15px;
+  box-shadow: 0 6px 0 rgba(30,28,22,.12); }
+.bub::after { content: ""; position: absolute; bottom: -9px; right: 44px; width: 14px; height: 14px;
+  background: #FFFDF7; border-right: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink);
+  transform: rotate(45deg); }
+.bub .rmk { font: 10.5px var(--mono); color: var(--muted); margin-top: 3px; }
+/* 尺寸变体:小气泡(三形态陈列/桌面轻提示) */
+.bub.sm { min-width: 150px; max-width: 190px; border-radius: 13px;
+  padding: 8px 13px 7px; font-size: 14.5px; text-align: center; box-shadow: none; }
+.bub.sm::after { bottom: -8px; left: 42px; right: auto; width: 12px; height: 12px; }
+.bub.sm .rmk { font-size: 10px; display: block; margin-top: 2px; }
+
+/* ============ PetSprite ============ */
+.pet { width: 130px; }
+.pet img { width: 100%; display: block; filter: drop-shadow(0 8px 12px rgba(30,28,22,.28)); }

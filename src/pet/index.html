@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>DeskCat</title>
+  <link rel="stylesheet" href="../components/tokens.css" />
+  <style>
+    html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+    body { font: 13px/1.6 -apple-system, "PingFang SC", sans-serif; }
+
+    /* 窗口比形象大:多出来的宽高留给气泡。形象锚在右下角,气泡在其左上方。 */
+    #stage { position: relative; width: 100%; height: 100%; --sprite: 130px; }
+
+    #cat {
+      position: absolute; right: 0; bottom: 0;
+      width: var(--sprite); height: var(--sprite); object-fit: contain;
+      -webkit-user-drag: none; user-select: none;
+      filter: drop-shadow(0 8px 12px rgba(30, 28, 22, .28));
+      transition: opacity .16s ease;
+    }
+
+    /* 气泡:组件库 SpeechBubble 的桌面版(2.5px 炭墨描边 + 尾巴 + 站酷快乐体) */
+    #bubble {
+      position: absolute; right: 10px; bottom: calc(var(--sprite) - 6px); max-width: calc(100% - 16px);
+      background: #FFFDF7; border: 2.5px solid var(--ink); border-radius: 13px;
+      padding: 7px 12px 6px;
+      font-family: var(--kuaile); font-size: 14.5px; color: var(--ink);
+      box-shadow: 0 5px 0 rgba(30, 28, 22, .12);
+      opacity: 0; transform: translateY(4px) scale(.96);
+      transform-origin: bottom right;
+      transition: opacity .16s ease, transform .16s ease;
+      display: none; white-space: nowrap;
+    }
+    #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
+    #bubble::after {
+      content: ""; position: absolute; bottom: -8px; right: 24px;
+      width: 12px; height: 12px; background: #FFFDF7;
+      border-right: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink);
+      transform: rotate(45deg);
+    }
+    #bubble-remark {
+      display: block; margin-top: 2px;
+      font: 10px var(--mono); color: var(--muted);
+    }
+
+    /* 贴屏幕左边时:形象移到左下,气泡向右展开 */
+    #stage.flip-x #cat { right: auto; left: 0; }
+    #stage.flip-x #bubble { right: auto; left: 10px; transform-origin: bottom left; }
+    #stage.flip-x #bubble::after { right: auto; left: 24px; }
+    /* 贴屏幕顶边时:形象移到上方,气泡翻到形象下面 */
+    #stage.flip-y #cat { top: 0; bottom: auto; }
+    #stage.flip-y #bubble { bottom: auto; top: calc(var(--sprite) - 6px); transform-origin: top right; }
+    #stage.flip-y #bubble::after {
+      bottom: auto; top: -8px;
+      border: none; border-left: 2.5px solid var(--ink); border-top: 2.5px solid var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div id="bubble"><span id="bubble-text"></span><span id="bubble-remark"></span></div>
+    <img id="cat" alt="DeskCat" draggable="false" />
+  </div>
+  <script src="pet.js"></script>
+  
+
+</body>
+</html>

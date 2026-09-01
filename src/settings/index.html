@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>DeskCat 设置</title>
+<link rel="stylesheet" href="../components/components.css" />
+<style>
+  /* 仅窗口级排版;控件样式一律来自组件库 */
+  html, body { height: 100%; }
+  body { background: var(--paper); overflow: hidden; }
+  .win { width: 100%; height: 100%; border-radius: 0; box-shadow: none; }
+  .win .side { min-height: 0; }
+  .win .body { overflow-y: auto; }
+  .nav .ni { cursor: default; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .err { color: #C1584B; font-size: 11px; margin-top: 6px; }
+  .empty { color: var(--muted); font-size: 12px; padding: 14px 0; }
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="side">
+    <!-- 给系统 traffic lights 让位,同时作为窗口拖拽区 -->
+    <div class="titlebar" data-tauri-drag-region></div>
+    <div class="nav" data-key="page" id="nav">
+      <div class="ni sel" data-page="pet"><svg class="ic" viewBox="0 0 16 16"><path d="M3 7c0-3 2-5 5-5s5 2 5 5v4a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 5 2 2.5 5.5 3M12.5 5 14 2.5 10.5 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>形象</div>
+      <div class="ni" data-page="general"><svg class="ic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2M3.6 3.6l1.4 1.4M11 11l1.4 1.4M12.4 3.6 11 5M5 11l-1.4 1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>通用设置</div>
+      <div class="ni" data-page="company"><svg class="ic" viewBox="0 0 16 16"><path d="M2 13c1-4 3-6 6-6s5 2 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="4" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>陪伴感知</div>
+      <div class="ni" data-page="claude"><svg class="ic" viewBox="0 0 16 16"><path d="m6 4-3 4 3 4M10 4l3 4-3 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Claude Code</div>
+    </div>
+    <div class="cur">
+      <img id="cur-avatar" alt="" />
+      <div><div class="nm" id="cur-name">—</div><div class="st"><b>●</b> <span id="cur-state">待机中</span></div></div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="titlebar" data-tauri-drag-region></div>
+    <!-- 形象页 -->
+    <section class="page active" id="page-pet">
+      <h3>形象</h3>
+      <div class="desc">这只猫来自一张图 —— 以后你也可以用自己的图生成一只</div>
+      <div class="pcards" id="pcards"></div>
+      <div class="preview" id="preview" hidden>
+        <div class="ph"><b id="pv-name"></b><span id="pv-hint"></span></div>
+        <div class="strip" id="pv-strip"></div>
+      </div>
+      <div class="row" style="margin-top:14px; border-top:1px solid var(--hairline);">
+        <span class="lbl">大小<span class="hint">拖动时桌面上的它即时缩放</span></span>
+        <div class="slider" id="size-slider" data-key="size" data-min="60" data-max="220"></div>
+      </div>
+    </section>
+
+    <!-- 通用设置页 -->
+    <section class="page" id="page-general">
+      <h3>通用设置</h3>
+      <div class="desc">它怎么陪着你,由你说了算</div>
+      <div class="row">
+        <span class="lbl">开机自启<span class="hint">开机时自动把它请出来</span></span>
+        <div class="tg" data-cfg="autostart"></div>
+      </div>
+      <div class="row">
+        <span class="lbl">全屏时隐藏<span class="hint">演示、看视频时它自动回避</span></span>
+        <div class="tg" data-cfg="hide_on_fullscreen"></div>
+      </div>
+      <div class="row">
+        <span class="lbl">等你批权限时轻提示音<span class="hint">只有这一处会出声,响一下就停</span></span>
+        <div class="tg" data-cfg="chime"></div>
+      </div>
+      <div class="row">
+        <span class="lbl">日常气泡也显示来源<span class="hint">等你决策和出错时一定会标明项目;这里管的是干活等日常状态</span></span>
+        <div class="tg" data-cfg="bubble_remark"></div>
+      </div>
+      <div class="err" id="general-err" style="display:none"></div>
+    </section>
+
+    <!-- 陪伴感知页 -->
+    <section class="page" id="page-company">
+      <h3>陪伴感知</h3>
+      <div class="desc">你在敲键盘它就陪你忙活,你走开它就打个盹</div>
+      <div class="row">
+        <span class="lbl">键鼠活动感知<span class="hint">只取"在不在动"这一个信号,不记录任何按键内容</span></span>
+        <div class="tg" data-cfg="input_sensing"></div>
+      </div>
+      <div class="row">
+        <span class="lbl">判定离开<span class="hint">键鼠这么久没动就去打盹</span></span>
+        <div class="step" data-cfg="away_minutes" data-min="1" data-max="120">
+          <span class="pm" data-dir="down">−</span><span class="val">3 分钟</span><span class="pm" data-dir="up">＋</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Claude Code 页 -->
+    <section class="page" id="page-claude">
+      <h3>Claude Code</h3>
+      <div class="desc">它跑任务的时候,猫替你盯着</div>
+      <div class="row" id="conn-row">
+        <span class="lbl"><span class="dot off" id="conn-dot"></span><span id="conn-label">未连接</span><span class="hint" id="conn-hint">写入 hooks 后才能感知</span></span>
+        <span id="conn-action"></span>
+      </div>
+      <div class="row">
+        <span class="lbl">判定闲置<span class="hint">超过这个时间没有新事件,视为任务结束</span></span>
+        <div class="step" data-cfg="idle_minutes" data-min="1" data-max="120">
+          <span class="pm" data-dir="down">−</span><span class="val">10 分钟</span><span class="pm" data-dir="up">＋</span>
+        </div>
+      </div>
+      <div class="err" id="claude-err" style="display:none"></div>
+    </section>
+  </div>
+</div>
+<script src="settings.js"></script>
+</body>
+</html>
