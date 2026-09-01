@@ -5,6 +5,9 @@
   <title>DeskCat</title>
   <link rel="stylesheet" href="../components/tokens.css" />
   <style>
+    /* 没有 border-box 的话,气泡的 max-width 只约束内容盒,
+       padding(24) + 2.5px 描边(5) 会再撑出 29px,长文案就从窗口边溢出去被裁 */
+    *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
     body { font: 13px/1.6 -apple-system, "PingFang SC", sans-serif; }
 
@@ -21,15 +24,18 @@
 
     /* 气泡:组件库 SpeechBubble 的桌面版(2.5px 炭墨描边 + 尾巴 + 站酷快乐体) */
     #bubble {
-      position: absolute; right: 10px; bottom: calc(var(--sprite) - 6px); max-width: calc(100% - 16px);
+      position: absolute; right: 10px; bottom: calc(var(--sprite) - 6px);
+      /* 长文案必须换行:设 nowrap 的话内容会一路溢出到窗口外被裁掉 */
+      max-width: calc(100% - 20px); min-width: 0;
       background: #FFFDF7; border: 2.5px solid var(--ink); border-radius: 13px;
       padding: 7px 12px 6px;
-      font-family: var(--kuaile); font-size: 14.5px; color: var(--ink);
+      font-family: var(--kuaile); font-size: 14.5px; line-height: 1.45; color: var(--ink);
       box-shadow: 0 5px 0 rgba(30, 28, 22, .12);
       opacity: 0; transform: translateY(4px) scale(.96);
       transform-origin: bottom right;
       transition: opacity .16s ease, transform .16s ease;
-      display: none; white-space: nowrap;
+      display: none;
+      overflow-wrap: anywhere; word-break: break-word;
     }
     #bubble.show { opacity: 1; transform: translateY(0) scale(1); }
     #bubble::after {
@@ -38,9 +44,12 @@
       border-right: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink);
       transform: rotate(45deg);
     }
+    /* 备注行只占一行,超长省略号截断 —— 它是辅助信息,不该把气泡撑成一堵墙 */
     #bubble-remark {
       display: block; margin-top: 2px;
       font: 10px var(--mono); color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     /* 贴屏幕左边时:形象移到左下,气泡向右展开 */

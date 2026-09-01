@@ -1,6 +1,6 @@
 [package]
 name = "deskcat"
-version = "1.0.0"
+version = "1.0.1"
 description = "DeskCat — AI 感知型桌面伙伴"
 edition = "2021"
 
