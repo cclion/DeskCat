@@ -90,8 +90,8 @@ FAL_KEY=你的key
 
 | 芯片 | 文件 |
 |---|---|
-| Apple Silicon（M 系列） | `DeskCat-x.y.z-apple-silicon.dmg` |
-| Intel | `DeskCat-x.y.z-intel.dmg` |
+| Apple Silicon（M 系列） | [`DeskCat-apple-silicon.dmg`](https://github.com/cclion/DeskCat/releases/latest/download/DeskCat-apple-silicon.dmg) |
+| Intel | [`DeskCat-intel.dmg`](https://github.com/cclion/DeskCat/releases/latest/download/DeskCat-intel.dmg) |
 
 > 不确定选哪个？点左上角  → 关于本机，看「芯片」那一行。
 

@@ -45,7 +45,9 @@ build() {
   local src
   src=$(find "src-tauri/target/$target/release/bundle/dmg" -name '*.dmg' | head -1)
   [ -n "$src" ] || { echo "✗ $label 没产出 dmg"; exit 1; }
-  local dst="$OUT/DeskCat-$VERSION-$label.dmg"
+  # 文件名**不带版本号**:官网用 releases/latest/download/<固定名> 直链,
+  # 发新版时官网一个字都不用改。版本号由 Release 的 tag 标识。
+  local dst="$OUT/DeskCat-$label.dmg"
   cp "$src" "$dst"
   echo "→ $dst ($(du -h "$dst" | cut -f1))"
 }
@@ -55,7 +57,7 @@ build x86_64-apple-darwin  intel
 
 echo ""
 echo "==== 验收 ===="
-for dmg in "$OUT"/DeskCat-$VERSION-*.dmg; do
+for dmg in "$OUT"/DeskCat-*.dmg; do
   mnt=$(mktemp -d)
   hdiutil attach -nobrowse -quiet "$dmg" -mountpoint "$mnt"
   app="$mnt/DeskCat.app"
