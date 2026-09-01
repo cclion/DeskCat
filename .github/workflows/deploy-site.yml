@@ -1,0 +1,36 @@
+name: Deploy Site (官网静态站)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/deploy-site.yml'
+  workflow_dispatch:
+
+# 同一时刻只跑一个部署,避免并发 rsync 打架
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to nginx web root（纯静态，无构建）
+        run: |
+          rsync -a --delete site/ /var/www/deskcat.cclion.cc/
+
+      - name: Reload nginx + health
+        run: |
+          nginx -t && systemctl reload nginx
+          sleep 1
+          # 首页 + 关键静态资源都要能取到,碎图这种问题要在这里就拦住
+          for p in / /assets/pack/waiting.webp /assets/ZCOOLKuaiLe-Regular.woff2; do
+            code=$(curl -sk -o /dev/null -w "%{http_code}" --resolve deskcat.cclion.cc:443:127.0.0.1 "https://deskcat.cclion.cc$p")
+            echo "deskcat $p -> $code"
+            [ "$code" = "200" ] || exit 1
+          done
